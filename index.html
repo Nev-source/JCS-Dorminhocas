@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dorminhocas da JCS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Dorminhocas da JCS</h1>
+    </header>
+    <main>
+        <div class="image-text-container">
+            <div class="image-with-text">
+                <img src="images/dorminhoca1.jpg" alt="Dorminhoca 1">
+                <div class="text-box">
+                    <p>Letícia é conhecida por dormir em qualquer lugar e a qualquer hora. Já foi vista dormindo em carros alheios, em bancos, calçadas e até em baixo da sua PA! Ela sempre encontra um cantinho para dormir.</p>
+                    <button onclick="selectCharacter('images/dorminhoca1.jpg')">Jogar com Letícia</button>
+                </div>
+            </div>
+            <div class="image-with-text">
+                <img src="images/dorminhoca2.jpg" alt="Dorminhoca 2">
+                <div class="text-box">
+                    <p>Jéssica tem uma habilidade incrível de dormir profundamente mesmo em meio ao caos, e de ter um ronco estrondoso, de invejar um leão. Barulhos altos e luzes fortes não são páreos para o sono dela.</p>
+                    <button onclick="selectCharacter('images/dorminhoca2.jpg')">Jogar com Jéssica</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function selectCharacter(imagePath) {
+            localStorage.setItem('selectedCharacter', imagePath);
+            window.location.href = 'game.html';
+        }
+    </script>
+</body>
+</html>

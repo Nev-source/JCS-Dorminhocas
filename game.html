@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Dorminhocas da JCS</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Jogo Dorminhocas da JCS</h1>
+    </header>
+    <canvas id="game-canvas"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="game-over" class="hidden">Game Over
+        <button id="restart-game">Tentar novamente</button>
+        <button id="back-to-home">Voltar para a página inicial</button>
+    </div>
+    <div id="instructions-modal" class="hidden">
+        <h2>Instruções</h2>
+        <p>Use as setas esquerda e direita para mover a dorminhoca e evitar os obstáculos. Pegue os símbolos "Z" para aumentar sua pontuação.</p>
+        <button id="start-game-btn">Começar Jogo</button>
+    </div>
+</body>
+</html>
