@@ -105,9 +105,14 @@ header {
     border-radius: 10px;
 }
 
-#score {
+#score, #high-score {
     font-size: 1.5em;
     margin-top: 10px;
+}
+
+#high-score {
+    margin-top: 5px;
+    font-size: 1.2em;
 }
 
 #game-over {

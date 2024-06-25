@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const gameCanvas = document.getElementById('game-canvas');
     const scoreDisplay = document.getElementById('score');
+    const highScoreDisplay = document.getElementById('high-score');
     const gameOverText = document.getElementById('game-over');
     const restartButton = document.getElementById('restart-game');
     const instructionsModal = document.getElementById('instructions-modal');
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = gameCanvas.getContext('2d');
     
     let score = 0;
+    let highScore = localStorage.getItem('highScore') || 0;
     let gameInterval;
     let obstacles = [];
     let zSymbols = [];
@@ -17,36 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const obstacleSize = 30;
     const zSize = 20;
     let keys = {};
-    let obstacleFrequency = 0.02; // Frequência inicial de obstáculos
-    let zSymbolFrequency = 0.05; // Frequência inicial de símbolos "Z"
-    let obstacleSpeed = 3; // Velocidade inicial dos obstáculos
-    let zSymbolSpeed = 2; // Velocidade inicial dos símbolos "Z"
+    let obstacleFrequency = 0.02;
+    let zSymbolFrequency = 0.05;
+    let obstacleSpeed = 3;
+    let zSymbolSpeed = 2;
 
     function init() {
         gameCanvas.width = 600;
         gameCanvas.height = 400;
-
         const selectedCharacter = localStorage.getItem('selectedCharacter');
-        if (selectedCharacter) {
-            player = { 
-                x: gameCanvas.width / 2 - playerSize / 2, 
-                y: gameCanvas.height - playerSize - 10, 
-                width: playerSize, 
-                height: playerSize, 
-                speed: 5, 
-                image: selectedCharacter 
-            };
-        } else {
-            player = { 
-                x: gameCanvas.width / 2 - playerSize / 2, 
-                y: gameCanvas.height - playerSize - 10, 
-                width: playerSize, 
-                height: playerSize, 
-                speed: 5, 
-                image: 'images/dorminhoca1.jpg' // Padrão, caso nada seja selecionado
-            };
-        }
-
+        player = { x: gameCanvas.width / 2 - playerSize / 2, y: gameCanvas.height - playerSize - 10, width: playerSize, height: playerSize, speed: 5, image: selectedCharacter || 'images/dorminhoca1.jpg' };
         score = 0;
         obstacles = [];
         zSymbols = [];
@@ -57,16 +39,21 @@ document.addEventListener('DOMContentLoaded', () => {
         zSymbolSpeed = 2;
         gameOverText.classList.add('hidden');
         scoreDisplay.textContent = `Score: ${score}`;
-        instructionsModal.classList.remove('hidden'); // Exibe o modal de instruções
+        highScoreDisplay.textContent = `Recorde: ${highScore}`;
+        instructionsModal.classList.remove('hidden');
     }
 
     function startGame() {
-        instructionsModal.classList.add('hidden'); // Esconde o modal de instruções
+        instructionsModal.classList.add('hidden');
         gameInterval = setInterval(gameLoop, 1000 / 60);
     }
 
     function endGame() {
         clearInterval(gameInterval);
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('highScore', highScore);
+        }
         gameOverText.classList.remove('hidden');
     }
 
@@ -84,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
             player.x += player.speed;
         }
 
-        // Update obstacles and Z symbols
         obstacles = obstacles.filter(obstacle => obstacle.y < gameCanvas.height);
         zSymbols = zSymbols.filter(z => z.y < gameCanvas.height);
 
@@ -159,11 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function increaseDifficulty() {
-        // Aumenta a dificuldade conforme o tempo passa
-        obstacleFrequency += 0.00002; // Aumenta a frequência de aparecimento dos obstáculos
-        zSymbolFrequency += 0.00001; // Aumenta a frequência de aparecimento dos símbolos "Z"
-        obstacleSpeed += 0.002; // Aumenta a velocidade dos obstáculos
-        zSymbolSpeed += 0.001; // Aumenta a velocidade dos símbolos "Z"
+        obstacleFrequency += 0.00001;
+        zSymbolFrequency += 0.000005; 
+        obstacleSpeed += 0.001;
+        zSymbolSpeed += 0.001;
     }
 
     window.addEventListener('keydown', (e) => {
@@ -180,5 +165,5 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
-    init(); // Inicia o jogo quando a página carregar completamente
+    init();
 });
