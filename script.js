@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let zSymbols = [];
     let powerUps = [];
     let player;
-    const playerSize = 50;
-    const obstacleSize = 35;
+    const playerSize = 42;
+    const obstacleSize = 34;
     const zSize = 30;
     const powerUpSize = 40;
     let keys = {};
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let zSymbolSpeed = 2;
     let powerUpSpeed = 2;
     let powerUpActive = false;
-    let powerUpDuration = 5000; // 5 seconds
+    let powerUpDuration = 5000;
     let powerUpEffectEnd = 0;
 
     function init() {
@@ -211,7 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showJumpscare() {
-        const jumpscare = document.getElementById('jumpscare');
+        const jumpscares = document.querySelectorAll('.jumpscare');
+        const randomIndex = Math.floor(Math.random() * jumpscares.length);
+        const jumpscare = jumpscares[randomIndex];
         jumpscare.style.display = 'block';
         setTimeout(() => {
             jumpscare.style.display = 'none';

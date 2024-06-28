@@ -75,6 +75,17 @@ header {
     margin-top: 40px;
 }
 
+.jumpscare {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    object-fit: cover;
+}
+
 #start-game {
     background-color: #ff69b4;
     color: white;
@@ -161,15 +172,4 @@ button {
 button:hover {
     background-color: #ff85c1;
     transform: translateY(-5px);
-}
-
-#jumpscare {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: auto;
-    z-index: 9999;
-    display: none;
 }
