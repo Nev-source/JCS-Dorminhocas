@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         zSymbolFrequency = 0.07;
         powerUpFrequency = 0.0012;
         obstacleSpeed = 5;
-        zSymbolSpeed = 3;
+        zSymbolSpeed = 4;
         powerUpSpeed = 2;
         powerUpActive = false;
         gameOverText.classList.add('hidden');
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function increaseDifficulty() {
         obstacleFrequency += 0.00001;
-        zSymbolFrequency += 0.0001;
+        zSymbolFrequency += 0.000005;
         obstacleSpeed += 0.0007;
         zSymbolSpeed += 0.0001;
     }
