@@ -162,3 +162,14 @@ button:hover {
     background-color: #ff85c1;
     transform: translateY(-5px);
 }
+
+#jumpscare {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: auto;
+    z-index: 9999;
+    display: none;
+}

@@ -14,15 +14,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameInterval;
     let obstacles = [];
     let zSymbols = [];
+    let powerUps = [];
     let player;
     const playerSize = 50;
-    const obstacleSize = 30;
-    const zSize = 20;
+    const obstacleSize = 35;
+    const zSize = 30;
+    const powerUpSize = 40;
     let keys = {};
-    let obstacleFrequency = 0.03;
-    let zSymbolFrequency = 0.07;
+    let obstacleFrequency = 0.027;
+    let zSymbolFrequency = 0.15;
+    let powerUpFrequency = 0.0012;
     let obstacleSpeed = 3;
     let zSymbolSpeed = 2;
+    let powerUpSpeed = 2;
+    let powerUpActive = false;
+    let powerUpDuration = 5000; // 5 seconds
+    let powerUpEffectEnd = 0;
 
     function init() {
         gameCanvas.width = 600;
@@ -32,11 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
         score = 0;
         obstacles = [];
         zSymbols = [];
+        powerUps = [];
         keys = {};
-        obstacleFrequency = 0.03;
+        obstacleFrequency = 0.022;
         zSymbolFrequency = 0.07;
+        powerUpFrequency = 0.0012;
         obstacleSpeed = 5;
         zSymbolSpeed = 4;
+        powerUpSpeed = 2;
+        powerUpActive = false;
         gameOverText.classList.add('hidden');
         scoreDisplay.textContent = `Score: ${score}`;
         highScoreDisplay.textContent = `Recorde: ${highScore}`;
@@ -73,16 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         obstacles = obstacles.filter(obstacle => obstacle.y < gameCanvas.height);
         zSymbols = zSymbols.filter(z => z.y < gameCanvas.height);
+        powerUps = powerUps.filter(powerUp => powerUp.y < gameCanvas.height);
 
         obstacles.forEach(obstacle => obstacle.y += obstacle.speed);
         zSymbols.forEach(z => z.y += z.speed);
+        powerUps.forEach(powerUp => powerUp.y += powerUp.speed);
 
-        if (Math.random() < obstacleFrequency) {
+        if (!powerUpActive && Math.random() < obstacleFrequency) {
             obstacles.push(createObstacle());
         }
 
         if (Math.random() < zSymbolFrequency) {
             zSymbols.push(createZSymbol());
+        }
+
+        if (Math.random() < powerUpFrequency) {
+            powerUps.push(createPowerUp());
         }
 
         // Check for collisions
@@ -99,6 +116,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 scoreDisplay.textContent = `Score: ${score}`;
             }
         });
+
+        powerUps.forEach((powerUp, index) => {
+            if (isColliding(player, powerUp)) {
+                activatePowerUp();
+                powerUps.splice(index, 1);
+            }
+        });
+
+        // Handle power-up effect duration
+        if (powerUpActive && Date.now() > powerUpEffectEnd) {
+            deactivatePowerUp();
+        }
     }
 
     function draw() {
@@ -107,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         obstacles.forEach(obstacle => drawEntity(obstacle));
         zSymbols.forEach(z => drawEntity(z));
+        powerUps.forEach(powerUp => drawEntity(powerUp));
     }
 
     function drawEntity(entity) {
@@ -137,6 +167,17 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    function createPowerUp() {
+        return {
+            x: Math.random() * (gameCanvas.width - powerUpSize),
+            y: -powerUpSize,
+            width: powerUpSize,
+            height: powerUpSize,
+            speed: powerUpSpeed,
+            image: 'images/teddy-bear-icon.png'
+        };
+    }
+
     function isColliding(a, b) {
         return a.x < b.x + b.width &&
                a.x + a.width > b.x &&
@@ -146,9 +187,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function increaseDifficulty() {
         obstacleFrequency += 0.00001;
-        zSymbolFrequency += 0.000005; 
-        obstacleSpeed += 0.001;
-        zSymbolSpeed += 0.001;
+        zSymbolFrequency += 0.00001; 
+        obstacleSpeed += 0.0007;
+        zSymbolSpeed += 0.0001;
+    }
+
+    function activatePowerUp() {
+        powerUpActive = true;
+        powerUpEffectEnd = Date.now() + powerUpDuration;
+        player.speed *= 2;
+        zSymbolFrequency *= 3; 
+        powerUpFrequency = 0;
+        obstacleFrequency = 0;
+        showJumpscare();
+    }
+
+    function deactivatePowerUp() {
+        powerUpActive = false;
+        player.speed = 5.3;
+        zSymbolFrequency /= 3; 
+        powerUpFrequency = 0.0015;
+        obstacleFrequency = 0.025;
+    }
+
+    function showJumpscare() {
+        const jumpscare = document.getElementById('jumpscare');
+        jumpscare.style.display = 'block';
+        setTimeout(() => {
+            jumpscare.style.display = 'none';
+        }, 400);
     }
 
     window.addEventListener('keydown', (e) => {
