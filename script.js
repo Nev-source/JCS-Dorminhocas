@@ -186,16 +186,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function increaseDifficulty() {
-        obstacleFrequency += 0.00002;
-        obstacleSpeed += 0.0008;
-        zSymbolSpeed += 0.0004;
+        obstacleFrequency += 0.00001;
+        obstacleSpeed += 0.0006;
+        zSymbolSpeed += 0.0002;
     }
 
     function activatePowerUp() {
         powerUpActive = true;
         powerUpEffectEnd = Date.now() + powerUpDuration;
         player.speed *= 2;
-        zSymbolFrequency *= 2; 
+        zSymbolFrequency *= 1.5; 
         powerUpFrequency = 0;
         obstacleFrequency = 0;
         showJumpscare();
