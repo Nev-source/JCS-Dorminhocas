@@ -186,17 +186,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function increaseDifficulty() {
-        obstacleFrequency += 0.00001;
-        zSymbolFrequency += 0.00001; 
-        obstacleSpeed += 0.0007;
-        zSymbolSpeed += 0.0001;
+        obstacleFrequency += 0.00002;
+        obstacleSpeed += 0.0008;
+        zSymbolSpeed += 0.0004;
     }
 
     function activatePowerUp() {
         powerUpActive = true;
         powerUpEffectEnd = Date.now() + powerUpDuration;
         player.speed *= 2;
-        zSymbolFrequency *= 3; 
+        zSymbolFrequency *= 2; 
         powerUpFrequency = 0;
         obstacleFrequency = 0;
         showJumpscare();
@@ -205,9 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function deactivatePowerUp() {
         powerUpActive = false;
         player.speed = 5.3;
-        zSymbolFrequency /= 3; 
         powerUpFrequency = 0.0015;
-        obstacleFrequency = 0.025;
+        obstacleFrequency = 0.026;
     }
 
     function showJumpscare() {
